@@ -34,13 +34,22 @@ Preguntas que el programa debe poder responder (cálculo analítico a partir
 de los datos, con posibilidad de variar entradas del usuario):
 
 a. Trabajo total `Wroz` de la fuerza de rozamiento entre 120.000 m y 2.500 m.
+
 b. Si la fase de mayor desaceleración dura Δt = 400,0 s, la desaceleración
    media sobre la tripulación en m/s² y en múltiplos de g.
+
 c. Si la cápsula se hunde d = 1,50 m en el agua antes de flotar, la fuerza
    promedio `Fprom` que ejerce el agua, en N y como múltiplo del peso.
+
 d. Consecuencias si el ángulo de reingreso γ queda fuera de la ventana
    segura 5,5° ≤ γ ≤ 7,0° (γ < 5,5° → rebote atmosférico; γ > 7,0° →
    desaceleración excesiva).
+
+## Modulos requeridos
+- `Módulo Principal (main.c):` Contiene únicamente la función main(), el menú principal de navegación y la inicialización del flujo general del programa.
+- `Módulo de Cabecera (simulador.h / artemis.h):` Declaración de constantes (#define), definición de tipos de datos estructurados, y prototipos de funciones públicas de la simulación.
+- `Módulo de Lógica (simulador.c / artemis.c):` Implementación de los algoritmos de simulación, actualización del estado del juego, cálculos físicos y lógica de negocio.
+- `Módulo de Validaciones e Interfaz (validaciones.c / .h):` Funciones dedicadas al ingreso seguro de datos y mensajes de advertencia.
 
 ### Datos y fórmulas (ver también CLAUDE.md)
 
