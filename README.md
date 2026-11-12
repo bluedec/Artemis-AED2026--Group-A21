@@ -8,6 +8,7 @@ Aerodinámico y Amerizaje del módulo Orion. Ver el detalle completo en
 ## Integrantes
 
 - Jesús Saez
+- Ferrario Sanchez Fabrizio Eduardo
 
 ## Descripción del escenario
 
