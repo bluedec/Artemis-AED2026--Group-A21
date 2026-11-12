@@ -33,9 +33,6 @@ entradas):
     necesita `make` pero sí requiere `gcc` en el `PATH`.
 - (Opcional, para autocompletado en el editor) `clangd`.
 
-git clone --recursive <url-del-repo>
-# o, si ya lo clonaron:
-git submodule update --init
 
 ## Compilación y ejecución
 
