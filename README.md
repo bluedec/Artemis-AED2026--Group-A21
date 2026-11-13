@@ -7,7 +7,7 @@ Aerodinámico y Amerizaje del módulo Orion. Ver el detalle completo en
 
 ## Integrantes
 
-- Jesús Saez
+- Saez Jesus
 - Ferrario Sanchez Fabrizio Eduardo
 
 ## Descripción del escenario
@@ -25,6 +25,7 @@ entradas):
 
 ## Requisitos
 
+- Descargar w64devkit (para Windows)
 - Un compilador de C (`gcc` o `clang`).
 - `make`.
   - **Windows**: `make` no viene instalado por defecto. Instalarlo junto a
@@ -59,14 +60,8 @@ Con `make` instalado (ver sección de requisitos):
 make start
 ```
 
-Sin `make`, usando el script equivalente `make.bat`:
-
-```bat
-make.bat start
-make.bat
-make.bat clean
-```
-
 ## Uso de IA
 
 Se utilizo IA para generar la estructura general, para pensar soluciones eficientes, para incorporar las herramientas a utilizarse.
+Se utilizo IA para desarrollar rapidamente las funciones que calculan la velocidad de la nave, la fuerza de rozamiento, etc.
+Se utilizo IA para desarrollar las instrucciones de instalacion

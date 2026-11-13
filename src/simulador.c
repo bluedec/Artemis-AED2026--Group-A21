@@ -21,7 +21,7 @@ static double leer_double(const char *mensaje) {
         }
 
         if (buffer[0] == '\0' || *fin != '\0') {
-            printf("Error: \"%s\" no es un numero valido. Intente de nuevo.\n", buffer);
+            printf("Error: %s no es un numero valido. Intente nuevamente.\n", buffer);
             continue;
         }
         return valor;
