@@ -59,6 +59,11 @@ int main(void) {
         if (dibujar_boton_pausa(pausado)) {
             pausado = !pausado;
         }
+        if (dibujar_boton_reinicio(&mision)) {
+            mision_iniciar(&mision, angulo);
+            reloj_iniciar(&reloj, ESCALA_TIEMPO);
+            pausado = 0;
+        }
         EndDrawing();
     }
 

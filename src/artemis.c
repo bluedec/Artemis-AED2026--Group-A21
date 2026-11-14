@@ -61,6 +61,7 @@ void mision_iniciar(Mision *m, double angulo_grados) {
 
     m->fuerza_rozamiento_n = 0.0;
     m->energia_cinetica_perdida_j = 0.0;
+    m->energia_rozamiento_perdida_j = 0.0;
 
     if (angulo_grados < ANGULO_REINGRESO_MIN_GRADOS) {
         m->fase = FASE_REBOTE;
@@ -91,6 +92,8 @@ static void avanzar_frenado(Mision *m, double dt) {
 
     m->energia_cinetica_perdida_j = 0.5 * MASA_MODULO_KG *
         (VELOCIDAD_INICIAL_MS * VELOCIDAD_INICIAL_MS - m->velocidad * m->velocidad);
+    m->energia_rozamiento_perdida_j = m->energia_cinetica_perdida_j +
+        MASA_MODULO_KG * GRAVEDAD_MS2 * (ALTITUD_INICIAL_M - m->altitud);
 
     if (m->altitud <= ALTITUD_FINAL_M) {
         m->altitud = ALTITUD_FINAL_M;
@@ -102,6 +105,8 @@ static void avanzar_frenado(Mision *m, double dt) {
         m->fuerza_rozamiento_n = 0.0;
         m->energia_cinetica_perdida_j = 0.5 * MASA_MODULO_KG *
             (VELOCIDAD_INICIAL_MS * VELOCIDAD_INICIAL_MS - VELOCIDAD_FINAL_MS * VELOCIDAD_FINAL_MS);
+        m->energia_rozamiento_perdida_j = m->energia_cinetica_perdida_j +
+            MASA_MODULO_KG * GRAVEDAD_MS2 * (ALTITUD_INICIAL_M - ALTITUD_FINAL_M);
     }
 }
 

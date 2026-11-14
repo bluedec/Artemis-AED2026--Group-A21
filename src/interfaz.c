@@ -166,7 +166,8 @@ static void dibujar_hud(const Mision *m) {
     DrawText(TextFormat("Desaceleracion: %.2f g", m->desaceleracion_actual_ms2 / GRAVEDAD_MS2), 20, 70, 20, color_g);
 
     if (m->fase == FASE_FRENADO) {
-        DrawText(TextFormat("Fuerza de rozamiento: %.0f N", m->fuerza_rozamiento_n), 20, 95, 20, LIGHTGRAY);
+        DrawText(TextFormat("Energia perdida por rozamiento: %.2f GJ", m->energia_rozamiento_perdida_j / 1.0e9),
+                  20, 95, 20, LIGHTGRAY);
         DrawText(TextFormat("Energia cinetica perdida: %.2f GJ", m->energia_cinetica_perdida_j / 1.0e9),
                   20, 120, 20, LIGHTGRAY);
     }
@@ -209,6 +210,28 @@ int dibujar_boton_pausa(int pausado) {
     DrawRectangleLinesEx(boton, 2, WHITE);
     DrawText(texto, (int)boton.x + (BOTON_PAUSA_ANCHO_PX - ancho_texto) / 2,
               (int)boton.y + (BOTON_PAUSA_ALTO_PX - 20) / 2, 20, BLACK);
+
+    return mouse_encima && IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
+}
+
+int dibujar_boton_reinicio(const Mision *m) {
+    Rectangle boton;
+    int mouse_encima;
+    const char *texto = "Reiniciar";
+    int ancho_texto;
+
+    if (m->fase != FASE_TERMINADA) {
+        return 0;
+    }
+
+    boton = (Rectangle){ BOTON_REINICIO_X_PX, BOTON_REINICIO_Y_PX, BOTON_REINICIO_ANCHO_PX, BOTON_REINICIO_ALTO_PX };
+    mouse_encima = CheckCollisionPointRec(GetMousePosition(), boton);
+    ancho_texto = MeasureText(texto, 20);
+
+    DrawRectangleRec(boton, mouse_encima ? LIGHTGRAY : GRAY);
+    DrawRectangleLinesEx(boton, 2, WHITE);
+    DrawText(texto, (int)boton.x + (BOTON_REINICIO_ANCHO_PX - ancho_texto) / 2,
+              (int)boton.y + (BOTON_REINICIO_ALTO_PX - 20) / 2, 20, BLACK);
 
     return mouse_encima && IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
 }

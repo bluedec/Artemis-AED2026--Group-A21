@@ -45,6 +45,7 @@ typedef struct {
     double desaceleracion_actual_ms2; /* para el HUD: cuanto se desacelera en este instante */
     double fuerza_rozamiento_n;       /* fuerza de rozamiento instantanea, recalculada cada paso */
     double energia_cinetica_perdida_j; /* cuanta Ec se perdio desde el reingreso, recalculada cada paso */
+    double energia_rozamiento_perdida_j; /* energia total disipada por rozamiento (Ec perdida + Ep perdida) */
     double altitud_max_fase;          /* techo de la escala de dibujo en la fase actual */
 
     FaseSimulacion fase;

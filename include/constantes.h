@@ -52,6 +52,12 @@
 #define BOTON_PAUSA_ANCHO_PX 130
 #define BOTON_PAUSA_ALTO_PX 36
 
+/* --- Boton de reinicio (solo visible al terminar la mision) --- */
+#define BOTON_REINICIO_X_PX 20
+#define BOTON_REINICIO_Y_PX 201
+#define BOTON_REINICIO_ANCHO_PX 130
+#define BOTON_REINICIO_ALTO_PX 36
+
 /* --- Mensaje final (amerizaje o mision fallida) --- */
 #define MENSAJE_FINAL_Y_PX 200
 
