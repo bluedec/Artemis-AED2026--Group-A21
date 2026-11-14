@@ -2,7 +2,6 @@
 #include "raylib.h"
 #include "constantes.h"
 #include "artemis.h"
-#include "simulador.h"
 #include "tiempo.h"
 #include "interfaz.h"
 
@@ -67,7 +66,7 @@ int main(void) {
 
     CloseWindow();
 
-    /* 3) Reporte final de desempeño, por consola */
+    /* 3) Reporte final de desempeÃ±o, por consola */
     printf("\n===== Reporte final de la simulacion =====\n");
     printf("%s\n", TextFormat("Resultado: %s", mision.fallida ? "fallida" : "exitosa"));
     if (mision.fuerza_impacto_n > 0.0) {
