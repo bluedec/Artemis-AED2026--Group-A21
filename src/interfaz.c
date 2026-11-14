@@ -149,6 +149,15 @@ static void dibujar_titulo_fase(const Mision *m) {
     DrawText(texto, (VENTANA_ANCHO_PX - ancho) / 2, 15, 28, GOLD);
 }
 
+static void dibujar_tiempo_mision(double tiempo_mision_s) {
+    int total_segundos = (int)tiempo_mision_s;
+    int minutos = total_segundos / 60;
+    int segundos = total_segundos % 60;
+    const char *texto = TextFormat("Tiempo de mision: %02d:%02d", minutos, segundos);
+    int ancho = MeasureText(texto, 20);
+    DrawText(texto, (VENTANA_ANCHO_PX - ancho) / 2, 50, 20, LIGHTGRAY);
+}
+
 static void dibujar_hud(const Mision *m) {
     Color color_g = m->fallida ? RED : GREEN;
 
@@ -204,7 +213,7 @@ int dibujar_boton_pausa(int pausado) {
     return mouse_encima && IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
 }
 
-void dibujar_simulacion(const Mision *m) {
+void dibujar_simulacion(const Mision *m, double tiempo_mision_s) {
     float y_capsula = altitud_a_pixel(m->altitud, m->altitud_max_fase);
 
     ClearBackground(color_cielo(m));
@@ -215,6 +224,7 @@ void dibujar_simulacion(const Mision *m) {
     dibujar_paracaidas(m, y_capsula);
     dibujar_capsula(m, y_capsula);
     dibujar_titulo_fase(m);
+    dibujar_tiempo_mision(tiempo_mision_s);
     dibujar_hud(m);
     dibujar_mensaje_final(m);
 }

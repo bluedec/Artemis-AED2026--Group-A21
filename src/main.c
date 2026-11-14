@@ -55,7 +55,7 @@ int main(void) {
         }
 
         BeginDrawing();
-        dibujar_simulacion(&mision);
+        dibujar_simulacion(&mision, reloj.tiempo_total);
         if (dibujar_boton_pausa(pausado)) {
             pausado = !pausado;
         }

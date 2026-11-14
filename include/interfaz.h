@@ -3,7 +3,7 @@
 
 #include "artemis.h"
 
-void dibujar_simulacion(const Mision *m);
+void dibujar_simulacion(const Mision *m, double tiempo_mision_s);
 
 /* Dibuja el boton de pausa y devuelve 1 si se hizo click en el, 0 si no */
 int dibujar_boton_pausa(int pausado);
