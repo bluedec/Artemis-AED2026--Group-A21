@@ -4,6 +4,7 @@
 #include "artemis.h"
 #include "tiempo.h"
 #include "interfaz.h"
+#include "simulador.h"
 
 int main(void) {
     ModuloOrion modulo = {
@@ -17,8 +18,7 @@ int main(void) {
     double delta_t = DELTA_T_DESACELERACION_S;
     double hundimiento = HUNDIMIENTO_M;
 
-    //double angulo = solicitar_angulo_reingreso();
-    double angulo = 5.5;
+    double angulo = solicitar_angulo_reingreso();
 
     double trabajo = calcular_trabajo_rozamiento(modulo);
     double desaceleracion = calcular_desaceleracion_media(modulo.velocidad_inicial, modulo.velocidad_final, delta_t);

@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "artemis.h"
+#include "constantes.h"
 #include "simulador.h"
 
 static double leer_double(const char *mensaje) {
@@ -29,6 +31,15 @@ static double leer_double(const char *mensaje) {
 }
 
 double solicitar_angulo_reingreso(void) {
+    double angulo;
+
     printf("\n===== Datos de la simulacion de reingreso =====\n");
-    return leer_double("Angulo de reingreso (grados): ");
+    for (;;) {
+        angulo = leer_double("Angulo de reingreso (grados): ");
+        if (angulo_en_ventana_segura(angulo)) {
+            return angulo;
+        }
+        printf("Error: el angulo debe estar entre %.1f y %.1f grados. Intente nuevamente.\n",
+               ANGULO_REINGRESO_MIN_GRADOS, ANGULO_REINGRESO_MAX_GRADOS);
+    }
 }
