@@ -123,6 +123,8 @@ static void avanzar_paracaidas(Mision *m, double dt) {
         m->altitud = 0.0;
         m->fuerza_impacto_n = calcular_fuerza_promedio_amerizaje(MASA_MODULO_KG, m->velocidad, HUNDIMIENTO_M);
         m->fuerza_impacto_pesos = m->fuerza_impacto_n / (MASA_MODULO_KG * GRAVEDAD_MS2);
+        m->velocidad = 0.0;
+        m->desaceleracion_actual_ms2 = 0.0;
         m->fase = FASE_TERMINADA;
     }
 }

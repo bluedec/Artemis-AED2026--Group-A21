@@ -9,6 +9,10 @@ Aerodinámico y Amerizaje del módulo Orion. Ver el detalle completo en
 
 - Saez Jesus
 - Ferrario Sanchez Fabrizio Eduardo
+- Veron Victor Antonio
+- Melanie Milagros Duarte Mikunda
+- Martinez Maximo Geronimo
+- Gabriel Alejandro Gimenez
 
 ## Descripción del escenario
 
@@ -65,3 +69,24 @@ make start
 Se utilizo IA para generar la estructura general, para pensar soluciones eficientes, para incorporar las herramientas a utilizarse.
 Se utilizo IA para desarrollar rapidamente las funciones que calculan la velocidad de la nave, la fuerza de rozamiento, etc.
 Se utilizo IA para desarrollar las instrucciones de instalacion
+
+Prompts utilizadas
+#### Fabrizio Ferrario
+![Ferrario Fabrizio 1](images/FerrarioFabrizio_1.png)
+
+#### Gabriel Giménez
+![Giménez Gabriel 1](images/GimenezGabriel_1.jpeg)
+
+#### Máximo Martínez
+![Martínez Máximo 1](images/MartinezMaximo_1.jpg)
+![Martínez Máximo 2](images/MartinezMaximo_2.jpg)
+
+#### Jesús Sáez
+![Sáez Jesús 1](images/SaezJesus_1.png)
+![Sáez Jesús 2](images/SaezJesus_2.png)
+![Sáez Jesús 3](images/SaezJesus_3.png)
+![Sáez Jesús 4](images/SaezJesus_4.png)
+
+#### Víctor Verón
+![Verón Víctor 1](images/VeronVictor_1.jpeg)
+![Verón Víctor 2](images/VeronVictor_2.jpeg)

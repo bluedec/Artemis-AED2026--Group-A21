@@ -40,6 +40,7 @@ int main(void) {
     Reloj reloj;
     reloj_iniciar(&reloj, ESCALA_TIEMPO);
 
+    SetTraceLogLevel(LOG_WARNING);
     InitWindow(VENTANA_ANCHO_PX, VENTANA_ALTO_PX, VENTANA_TITULO);
     SetTargetFPS(VENTANA_FPS);
 

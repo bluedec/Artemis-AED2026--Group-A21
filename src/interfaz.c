@@ -1,10 +1,63 @@
+#include <stdlib.h>
 #include "raylib.h"
 #include "interfaz.h"
 #include "constantes.h"
 
+#define CANTIDAD_ESTRELLAS 80
+
+typedef struct {
+    int x;
+    int y;
+    int radio;
+} Estrella;
+
+static Estrella estrellas[CANTIDAD_ESTRELLAS];
+static int estrellas_generadas = 0;
+
 static float altitud_a_pixel(double altitud, double altitud_max) {
     double y = Y_MAR_PX - (altitud / altitud_max) * (Y_MAR_PX - Y_TECHO_PX);
     return (float)y;
+}
+
+/* 1.0 en el espacio (altitud_inicial o mas), 0.0 al llegar a los 2.5 km de apertura del paracaidas */
+static float factor_espacio(double altitud) {
+    if (altitud > ALTITUD_INICIAL_M) {
+        altitud = ALTITUD_INICIAL_M;
+    }
+    if (altitud < ALTITUD_FINAL_M) {
+        altitud = ALTITUD_FINAL_M;
+    }
+    return (float)((altitud - ALTITUD_FINAL_M) / (ALTITUD_INICIAL_M - ALTITUD_FINAL_M));
+}
+
+static void generar_estrellas(void) {
+    int i;
+
+    if (estrellas_generadas) {
+        return;
+    }
+
+    srand(20261114);
+    for (i = 0; i < CANTIDAD_ESTRELLAS; i++) {
+        estrellas[i].x = rand() % VENTANA_ANCHO_PX;
+        estrellas[i].y = rand() % Y_MAR_PX;
+        estrellas[i].radio = 1 + rand() % 2;
+    }
+    estrellas_generadas = 1;
+}
+
+static void dibujar_estrellas(const Mision *m) {
+    float opacidad = factor_espacio(m->altitud);
+    int i;
+
+    if (opacidad <= 0.0f) {
+        return;
+    }
+
+    generar_estrellas();
+    for (i = 0; i < CANTIDAD_ESTRELLAS; i++) {
+        DrawCircle(estrellas[i].x, estrellas[i].y, (float)estrellas[i].radio, Fade(WHITE, opacidad));
+    }
 }
 
 static void dibujar_mar(const Mision *m) {
@@ -31,18 +84,12 @@ static Color color_cielo(const Mision *m) {
     const Color espacio = BLACK;
     const Color atmosfera_alta = (Color){20, 20, 45, 255};
     const Color atmosfera_baja = (Color){60, 90, 140, 255};
-    double altitud = m->altitud;
 
-    if (altitud > ALTITUD_INICIAL_M) {
-        altitud = ALTITUD_INICIAL_M;
+    if (m->altitud >= ALTITUD_FINAL_M) {
+        return ColorLerp(atmosfera_alta, espacio, factor_espacio(m->altitud));
     }
 
-    if (altitud >= ALTITUD_FINAL_M) {
-        float factor = (float)((altitud - ALTITUD_FINAL_M) / (ALTITUD_INICIAL_M - ALTITUD_FINAL_M));
-        return ColorLerp(atmosfera_alta, espacio, factor);
-    }
-
-    float factor = (float)(altitud / ALTITUD_FINAL_M);
+    float factor = (float)(m->altitud / ALTITUD_FINAL_M);
     return ColorLerp(atmosfera_baja, atmosfera_alta, factor);
 }
 
@@ -161,6 +208,7 @@ void dibujar_simulacion(const Mision *m) {
     float y_capsula = altitud_a_pixel(m->altitud, m->altitud_max_fase);
 
     ClearBackground(color_cielo(m));
+    dibujar_estrellas(m);
     dibujar_mar(m);
     dibujar_indicador_fase2(m);
     dibujar_plasma(m, y_capsula);
