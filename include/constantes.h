@@ -24,17 +24,10 @@
 #define DECELERACION_PARACAIDAS_MS2 2.0 /* frenado bajo el paracaidas hasta llegar a v_impacto */
 
 /* --- Rebote atmosferico (gamma por debajo de la ventana segura) --- */
-/* El enunciado solo exige que la capsula "rebote" y la mision se pierda;
- * no hay una formula fisica para ese ascenso, asi que alcanza con una
- * velocidad de salida simple y un umbral para considerarla fuera de escena. */
 #define VELOCIDAD_REBOTE_MS 3000.0
 #define ALTITUD_REBOTE_MAX_M (ALTITUD_INICIAL_M * 1.1)
 
 /* --- Historial de la simulacion --- */
-/* Un registro por segundo simulado. El vuelo completo (frenado: entre
- * ~175 s en el limite superior de la ventana y ~225 s en el inferior,
- * mas paracaidas: ~305 s, fijo) nunca supera los ~530 s, asi que 700
- * deja margen sin desperdiciar memoria. */
 #define MAX_TURNOS 700
 
 /* --- Configuracion de la ventana (raylib) --- */

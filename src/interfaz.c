@@ -7,9 +7,43 @@ static float altitud_a_pixel(double altitud, double altitud_max) {
     return (float)y;
 }
 
-/* El mar no depende de la mision: siempre es la misma franja azul abajo. */
-static void dibujar_mar(void) {
+static void dibujar_mar(const Mision *m) {
+    if (m->fase == FASE_FRENADO) {
+        return;
+    }
     DrawRectangle(0, Y_MAR_PX, VENTANA_ANCHO_PX, VENTANA_ALTO_PX - Y_MAR_PX, DARKBLUE);
+}
+
+static void dibujar_indicador_fase2(const Mision *m) {
+    float y_linea;
+
+    if (m->fase != FASE_FRENADO) {
+        return;
+    }
+
+    y_linea = altitud_a_pixel(ALTITUD_FINAL_M, m->altitud_max_fase);
+    DrawLine(0, (int)y_linea, VENTANA_ANCHO_PX, (int)y_linea, SKYBLUE);
+    DrawText(TextFormat("%.1f km - apertura de paracaidas", ALTITUD_FINAL_M / 1000.0),
+              20, (int)y_linea - 22, 18, SKYBLUE);
+}
+
+static Color color_cielo(const Mision *m) {
+    const Color espacio = BLACK;
+    const Color atmosfera_alta = (Color){20, 20, 45, 255};
+    const Color atmosfera_baja = (Color){60, 90, 140, 255};
+    double altitud = m->altitud;
+
+    if (altitud > ALTITUD_INICIAL_M) {
+        altitud = ALTITUD_INICIAL_M;
+    }
+
+    if (altitud >= ALTITUD_FINAL_M) {
+        float factor = (float)((altitud - ALTITUD_FINAL_M) / (ALTITUD_INICIAL_M - ALTITUD_FINAL_M));
+        return ColorLerp(atmosfera_alta, espacio, factor);
+    }
+
+    float factor = (float)(altitud / ALTITUD_FINAL_M);
+    return ColorLerp(atmosfera_baja, atmosfera_alta, factor);
 }
 
 static void dibujar_capsula(const Mision *m, float y_capsula) {
@@ -52,6 +86,22 @@ static void dibujar_paracaidas(const Mision *m, float y_capsula) {
              X_CAPSULA_PX, y_tela, WHITE);
 }
 
+static const char *nombre_fase(FaseSimulacion fase) {
+    switch (fase) {
+        case FASE_FRENADO: return "Frenado atmosferico";
+        case FASE_PARACAIDAS: return "Descenso con paracaidas";
+        case FASE_REBOTE: return "Rebote atmosferico";
+        case FASE_TERMINADA: return "Mision terminada";
+    }
+    return "";
+}
+
+static void dibujar_titulo_fase(const Mision *m) {
+    const char *texto = TextFormat("Fase: %s", nombre_fase(m->fase));
+    int ancho = MeasureText(texto, 28);
+    DrawText(texto, (VENTANA_ANCHO_PX - ancho) / 2, 15, 28, GOLD);
+}
+
 static void dibujar_hud(const Mision *m) {
     Color color_g = m->fallida ? RED : GREEN;
 
@@ -59,9 +109,6 @@ static void dibujar_hud(const Mision *m) {
     DrawText(TextFormat("Velocidad: %.1f m/s", m->velocidad), 20, 45, 20, LIGHTGRAY);
     DrawText(TextFormat("Desaceleracion: %.2f g", m->desaceleracion_actual_ms2 / GRAVEDAD_MS2), 20, 70, 20, color_g);
 
-    /* Fuerza de rozamiento atmosferico: solo mientras frena en el reingreso.
-     * Mision.fuerza_rozamiento_n se recalcula en cada paso de fisica a
-     * partir de la velocidad actual, no es un valor fijo del inicio. */
     if (m->fase == FASE_FRENADO) {
         DrawText(TextFormat("Fuerza de rozamiento: %.0f N", m->fuerza_rozamiento_n), 20, 95, 20, LIGHTGRAY);
         DrawText(TextFormat("Energia cinetica perdida: %.2f GJ", m->energia_cinetica_perdida_j / 1.0e9),
@@ -69,7 +116,6 @@ static void dibujar_hud(const Mision *m) {
     }
 }
 
-/* Mensaje final: cuanta fuerza hizo el agua, o por que fallo la mision */
 static void dibujar_mensaje_final(const Mision *m) {
     const char *titulo;
     Color color_titulo;
@@ -114,10 +160,13 @@ int dibujar_boton_pausa(int pausado) {
 void dibujar_simulacion(const Mision *m) {
     float y_capsula = altitud_a_pixel(m->altitud, m->altitud_max_fase);
 
-    dibujar_mar();
+    ClearBackground(color_cielo(m));
+    dibujar_mar(m);
+    dibujar_indicador_fase2(m);
     dibujar_plasma(m, y_capsula);
     dibujar_paracaidas(m, y_capsula);
     dibujar_capsula(m, y_capsula);
+    dibujar_titulo_fase(m);
     dibujar_hud(m);
     dibujar_mensaje_final(m);
 }

@@ -63,7 +63,6 @@ void mision_iniciar(Mision *m, double angulo_grados) {
     m->energia_cinetica_perdida_j = 0.0;
 
     if (angulo_grados < ANGULO_REINGRESO_MIN_GRADOS) {
-        /* Gamma demasiado chico: la capsula rebota en la atmosfera, no hay frenado. */
         m->fase = FASE_REBOTE;
         m->aceleracion_frenado = 0.0;
     } else {
@@ -87,14 +86,9 @@ static void avanzar_frenado(Mision *m, double dt) {
     m->velocidad -= m->aceleracion_frenado * dt;
     m->altitud -= (v_antes + m->velocidad) / 2.0 * sin(angulo_rad) * dt;
 
-    /* El rozamiento atmosferico cae con el cuadrado de la velocidad (ley
-     * clasica de arrastre), por eso se recalcula paso a paso en vez de
-     * quedar fijo en el valor que tenia al reingresar. */
     proporcion_v = m->velocidad / VELOCIDAD_INICIAL_MS;
     m->fuerza_rozamiento_n = MASA_MODULO_KG * m->aceleracion_frenado * proporcion_v * proporcion_v;
 
-    /* Energia cinetica perdida desde el reingreso: crece a medida que el
-     * rozamiento le va quitando velocidad a la capsula. */
     m->energia_cinetica_perdida_j = 0.5 * MASA_MODULO_KG *
         (VELOCIDAD_INICIAL_MS * VELOCIDAD_INICIAL_MS - m->velocidad * m->velocidad);
 

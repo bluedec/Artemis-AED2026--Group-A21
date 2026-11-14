@@ -1,8 +1,7 @@
 #ifndef TIEMPO_H
 #define TIEMPO_H
 
-/* Reloj de paso fijo: acumula tiempo real (escalado) y lo entrega en
- * porciones de tamaño constante, para que la fisica no dependa de los FPS. */
+/* Reloj de paso fijo, independiente de los FPS */
 typedef struct {
     double escala;
     double acumulador;

@@ -25,7 +25,6 @@ int main(void) {
     double fuerza = calcular_fuerza_promedio_amerizaje(modulo.masa, modulo.velocidad_impacto, hundimiento);
     int ventana_segura = angulo_en_ventana_segura(angulo);
 
-    /* 1) Reporte analitico (preguntas a-d del enunciado), por consola */
     printf("\n===== Reporte analitico (Situacion-Problema 4) =====\n");
     printf("%s\n", TextFormat("Trabajo de rozamiento: %.2f J", trabajo));
     printf("%s\n", TextFormat("Desaceleracion media (Dt=%.0f s): %.2f m/s2 (%.2f g)",
@@ -35,7 +34,6 @@ int main(void) {
     printf("%s\n", TextFormat("Angulo de reingreso: %s",
                                ventana_segura ? "dentro de la ventana segura" : "fuera de la ventana segura"));
 
-    /* 2) Recien con todos los datos listos, corremos la simulacion animada en raylib */
     Mision mision;
     mision_iniciar(&mision, angulo);
 
@@ -56,7 +54,6 @@ int main(void) {
         }
 
         BeginDrawing();
-        ClearBackground(BLACK);
         dibujar_simulacion(&mision);
         if (dibujar_boton_pausa(pausado)) {
             pausado = !pausado;
@@ -66,7 +63,6 @@ int main(void) {
 
     CloseWindow();
 
-    /* 3) Reporte final de desempeÃ±o, por consola */
     printf("\n===== Reporte final de la simulacion =====\n");
     printf("%s\n", TextFormat("Resultado: %s", mision.fallida ? "fallida" : "exitosa"));
     if (mision.fuerza_impacto_n > 0.0) {
