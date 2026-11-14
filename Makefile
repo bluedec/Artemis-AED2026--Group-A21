@@ -6,10 +6,15 @@ SRC     = $(wildcard src/*.c)
 OBJ     = $(SRC:src/%.c=build/%.o)
 BIN     = hello
 
+# test_sim: valida artemis.c/tiempo.c (fisica pura, sin raylib) por consola
+TEST_BIN = test_sim
+TEST_OBJ = build/artemis.o build/tiempo.o build/test_simulacion.o
+
 # Librerías del sistema que necesita raylib
 ifeq ($(OS),Windows_NT)
     LDLIBS = -lopengl32 -lgdi32 -lwinmm
     BIN   := $(BIN).exe
+    TEST_BIN := $(TEST_BIN).exe
 else
     UNAME := $(shell uname -s)
     ifeq ($(UNAME),Darwin)
@@ -19,7 +24,7 @@ else
     endif
 endif
 
-.PHONY: all start clean cleanall
+.PHONY: all start test clean cleanall
 
 all: $(BIN)
 
@@ -35,14 +40,24 @@ $(RAYLIB)/libraylib.a:
 build/%.o: src/%.c | build
 	$(CC) $(CFLAGS) -c $< -o $@
 
+build/%.o: tests/%.c | build
+	$(CC) $(CFLAGS) -c $< -o $@
+
 build:
 	mkdir -p build
 
 start: $(BIN)
 	./$(BIN)
 
+# Corre la fisica (artemis.c + tiempo.c) sin ventana, para verificarla antes de animarla
+test: $(TEST_BIN)
+	./$(TEST_BIN)
+
+$(TEST_BIN): $(TEST_OBJ)
+	$(CC) $(TEST_OBJ) -o $(TEST_BIN) -lm
+
 clean:
-	rm -rf build $(BIN)
+	rm -rf build $(BIN) $(TEST_BIN)
 
 cleanall: clean
 	$(MAKE) -C $(RAYLIB) clean
